@@ -30,9 +30,10 @@ def handle(msg):
     print(content_type, chat_type, chat_id)
     if content_type == 'text':
         u_response = msg['text'] 
+        print u_response
         #User Response
-        if u_response == '/status':
-            BOT.sendMessage == '/pnr request Received. Send me the PNR number please.' 
+        if u_response == '/start':
+            BOT.sendMessage(chat_id, COM_STRING[1])
         elif len(u_response) == 5:
             try:
                 int(u_response)
@@ -53,7 +54,7 @@ def handle(msg):
                 print False
                 BOT.sendMessage(chat_id, "This doesn't look like a Valid PNR Number")
         else:
-            BOT.sendMessage(chat_id, COM_STRING[1])
+            BOT.sendMessage(chat_id, "Send me the Train Number")
     elif content_type != 'text':
         BOT.sendMessage(chat_id, COM_STRING[0])    
             
@@ -99,6 +100,7 @@ def pnr(pnr_no):
     if (obj['response_code'] == 200):
         print "Success"
         BOT.sendMessage(chat_id, "Date Of Journey" + obj['doj'] + "\nFrom Station : " + obj['from_station'] + "\To Station : "+ obj['to_station'])
+    
     elif obj['response_code'] == 221:
         print "Train Doesn't have a run Today."
         BOT.sendMessage(chat_id, "Invalid PNR")
